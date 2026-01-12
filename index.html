@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resep Nusantara Fusion</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        cream: '#FDFBF0',
+                        kunyit: '#FF9F1C',
+                        pandan: '#2EC4B6',
+                        charcoal: '#2B2D42',
+                    },
+                    fontFamily: {
+                        sans: ['Poppins', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Animasi Floating untuk Doodle Background */
+        @keyframes float {
+            0% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+            100% { transform: translateY(0px) rotate(0deg); }
+        }
+        .animate-float {
+            animation: float 6s ease-in-out infinite;
+        }
+        .animate-float-delayed {
+            animation: float 7s ease-in-out infinite 1s;
+        }
+
+        /* Animasi Fade In saat Scroll */
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+    </style>
+</head>
+<body class="bg-cream text-charcoal font-sans overflow-x-hidden relative">
+
+    <div class="fixed inset-0 pointer-events-none z-0 opacity-10 overflow-hidden">
+        <div class="absolute top-10 left-10 text-6xl animate-float">🌶️</div>
+        <div class="absolute top-40 right-20 text-5xl animate-float-delayed">🍋</div>
+        <div class="absolute bottom-20 left-1/4 text-6xl animate-float">🌿</div>
+        <div class="absolute top-1/2 right-10 text-4xl animate-float-delayed">🧅</div>
+    </div>
+
+    <nav class="relative z-50 px-6 py-6 md:px-12 flex justify-between items-center">
+        <div class="text-2xl font-bold text-pandan tracking-wide">
+            <i class="fas fa-utensils mr-2"></i>Nusantara<span class="text-kunyit">Rasa</span>
+        </div>
+        <div class="hidden md:flex space-x-8 font-medium text-gray-600">
+            <a href="#" class="hover:text-kunyit transition">Beranda</a>
+            <a href="#" class="hover:text-kunyit transition">Kategori</a>
+            <a href="#" class="hover:text-kunyit transition">Tips Pro</a>
+        </div>
+        <button class="bg-pandan text-white px-6 py-2 rounded-full font-medium hover:bg-[#25a094] transition shadow-md">
+            Masuk
+        </button>
+    </nav>
+
+    <section class="relative z-10 container mx-auto px-6 py-10 md:py-20 flex flex-col-reverse md:flex-row items-center">
+        <div class="w-full md:w-1/2 mt-10 md:mt-0 fade-in-up">
+            <span class="inline-block bg-orange-100 text-kunyit px-4 py-1 rounded-full text-sm font-bold mb-4">
+                👋 Halo Koki Muda!
+            </span>
+            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
+                Eksplorasi Rasa, <br>
+                <span class="text-kunyit">Inovasi Tradisi</span>
+            </h1>
+            <p class="text-gray-500 text-lg mb-8 leading-relaxed max-w-md">
+                Temukan resep masakan Nusantara yang dimodifikasi untuk lidah modern. Masak jadi mudah, estetik, dan pastinya enak!
+            </p>
+            <div class="flex gap-4">
+                <button class="bg-kunyit text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-200 hover:shadow-xl hover:-translate-y-1 transition transform">
+                    Mulai Masak
+                </button>
+                <button class="border-2 border-pandan text-pandan px-8 py-4 rounded-full font-bold hover:bg-pandan hover:text-white transition">
+                    Lihat Video
+                </button>
+            </div>
+        </div>
+
+        <div class="w-full md:w-1/2 flex justify-center relative">
+            <div class="absolute bg-yellow-100 rounded-full w-[350px] h-[350px] md:w-[500px] md:h-[500px] -z-10 blur-3xl opacity-60 top-10"></div>
+            
+            <div class="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px]">
+                <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
+                     alt="Masakan Nusantara Fusion" 
+                     class="w-full h-full object-cover rounded-full border-8 border-white shadow-2xl animate-float">
+                
+                <div class="absolute -bottom-4 -left-4 bg-white p-4 rounded-2xl shadow-xl animate-float-delayed flex items-center gap-3">
+                    <div class="bg-red-100 p-2 rounded-full text-red-500">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div>
+                        <p class="text-xs text-gray-400">Paling Favorit</p>
+                        <p class="font-bold text-sm">Rendang Burger</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative z-10 container mx-auto px-6 py-10">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-lg hover:border-pandan border-2 border-transparent transition cursor-pointer text-center group">
+                <div class="bg-orange-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-kunyit text-2xl group-hover:bg-kunyit group-hover:text-white transition">
+                    <i class="fas fa-sun"></i>
+                </div>
+                <h3 class="font-bold text-gray-700">Sunrise Bites</h3>
+                <p class="text-xs text-gray-400">Sarapan</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-lg hover:border-pandan border-2 border-transparent transition cursor-pointer text-center group">
+                <div class="bg-green-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-pandan text-2xl group-hover:bg-pandan group-hover:text-white transition">
+                    <i class="fas fa-utensils"></i>
+                </div>
+                <h3 class="font-bold text-gray-700">Lunch Energy</h3>
+                <p class="text-xs text-gray-400">Makan Siang</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-lg hover:border-pandan border-2 border-transparent transition cursor-pointer text-center group">
+                <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl group-hover:bg-blue-400 group-hover:text-white transition">
+                    <i class="fas fa-moon"></i>
+                </div>
+                <h3 class="font-bold text-gray-700">Night Comfort</h3>
+                <p class="text-xs text-gray-400">Makan Malam</p>
+            </div>
+            <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-lg hover:border-pandan border-2 border-transparent transition cursor-pointer text-center group">
+                <div class="bg-pink-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-400 text-2xl group-hover:bg-pink-400 group-hover:text-white transition">
+                    <i class="fas fa-ice-cream"></i>
+                </div>
+                <h3 class="font-bold text-gray-700">Sweet Heritage</h3>
+                <p class="text-xs text-gray-400">Dessert</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="relative z-10 container mx-auto px-6 py-16">
+        <div class="flex justify-between items-end mb-10">
+            <div>
+                <h2 class="text-3xl font-bold mb-2">Sedang Hype 🔥</h2>
+                <p class="text-gray-500">Resep inovatif yang lagi viral minggu ini.</p>
+            </div>
+            <a href="#" class="text-pandan font-bold hover:underline hidden md:block">Lihat Semua</a>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            
+            <div class="bg-white rounded-[30px] shadow-sm hover:shadow-2xl transition duration-300 hover:-translate-y-2 group cursor-pointer overflow-hidden border border-gray-100">
+                <div class="relative h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sushi Nasi Kuning" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <span class="absolute top-4 right-4 bg-pandan text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">Mudah</span>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl group-hover:text-kunyit transition">Nasi Goreng Kampung</h3>
+                        <div class="flex items-center text-kunyit text-sm">
+                            <i class="fas fa-star"></i>
+                            <span class="ml-1 font-bold text-charcoal">4.8</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">Sajian klasik dengan aroma terasi yang khas, ditambah topping sate lilit.</p>
+                    <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-100 pt-4">
+                        <div class="flex items-center gap-2">
+                            <i class="far fa-clock"></i> 25 Mnt
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-fire-alt text-orange-400"></i> 350 kkal
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-[30px] shadow-sm hover:shadow-2xl transition duration-300 hover:-translate-y-2 group cursor-pointer overflow-hidden border border-gray-100">
+                <div class="relative h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza Rendang" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <span class="absolute top-4 right-4 bg-kunyit text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">Sedang</span>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl group-hover:text-kunyit transition">Pizza Bumbu Rendang</h3>
+                        <div class="flex items-center text-kunyit text-sm">
+                            <i class="fas fa-star"></i>
+                            <span class="ml-1 font-bold text-charcoal">4.9</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">Perpaduan Italia dan Minang! Keju mozzarella lumer bertemu rempah rendang.</p>
+                    <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-100 pt-4">
+                        <div class="flex items-center gap-2">
+                            <i class="far fa-clock"></i> 45 Mnt
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-fire-alt text-orange-400"></i> 520 kkal
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="bg-white rounded-[30px] shadow-sm hover:shadow-2xl transition duration-300 hover:-translate-y-2 group cursor-pointer overflow-hidden border border-gray-100">
+                <div class="relative h-56 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Es Krim Klepon" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
+                    <span class="absolute top-4 right-4 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">Ekspert</span>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-2">
+                        <h3 class="font-bold text-xl group-hover:text-kunyit transition">Es Krim Rasa Klepon</h3>
+                        <div class="flex items-center text-kunyit text-sm">
+                            <i class="fas fa-star"></i>
+                            <span class="ml-1 font-bold text-charcoal">5.0</span>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">Dessert manis dengan sensasi gula merah meletus di mulut. Dingin & Segar!</p>
+                    <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-100 pt-4">
+                        <div class="flex items-center gap-2">
+                            <i class="far fa-clock"></i> 60 Mnt
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="fas fa-fire-alt text-orange-400"></i> 210 kkal
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <section class="container mx-auto px-6 mb-20">
+        <div class="bg-charcoal rounded-[30px] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
+            <div class="relative z-10 w-full md:w-2/3">
+                <div class="flex items-center gap-3 mb-4">
+                    <div class="bg-yellow-400 p-2 rounded-full text-charcoal animate-pulse">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <span class="text-gray-300 uppercase tracking-widest text-sm font-bold">Tips Dapur Pro</span>
+                </div>
+                <h2 class="text-white text-2xl md:text-3xl font-bold mb-4">"Cara Agar Santan Tidak Pecah"</h2>
+                <p class="text-gray-400 mb-6">Aduk terus perlahan dengan api kecil dan jangan biarkan mendidih terlalu lama. Tambahkan sedikit tepung maizena jika perlu.</p>
+                <button class="text-pandan font-bold hover:text-white transition">Baca Tips Lainnya →</button>
+            </div>
+            <div class="hidden md:block text-gray-700 text-9xl absolute -right-10 -bottom-10 opacity-20 transform rotate-12">
+                <i class="fas fa-blender"></i>
+            </div>
+        </div>
+    </section>
+
+</body>
+</html>
