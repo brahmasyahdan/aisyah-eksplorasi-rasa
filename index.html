@@ -3,14 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Resep Nusantara Fusion</title>
+    <title>Nusantara Rasa - 20 Resep Fusion</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     
     <script src="https://cdn.tailwindcss.com"></script>
-    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 
     <script>
@@ -22,6 +21,7 @@
                         kunyit: '#FF9F1C',
                         pandan: '#2EC4B6',
                         charcoal: '#2B2D42',
+                        offwhite: '#FFFDF5'
                     },
                     fontFamily: {
                         sans: ['Poppins', 'sans-serif'],
@@ -32,235 +32,422 @@
     </script>
 
     <style>
-        /* Animasi Floating untuk Doodle Background */
-        @keyframes float {
-            0% { transform: translateY(0px) rotate(0deg); }
-            50% { transform: translateY(-20px) rotate(5deg); }
-            100% { transform: translateY(0px) rotate(0deg); }
-        }
-        .animate-float {
-            animation: float 6s ease-in-out infinite;
-        }
-        .animate-float-delayed {
-            animation: float 7s ease-in-out infinite 1s;
-        }
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #FDFBF0; }
+        ::-webkit-scrollbar-thumb { background: #2EC4B6; border-radius: 10px; }
 
-        /* Animasi Fade In saat Scroll */
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .fade-in-up {
-            animation: fadeInUp 0.8s ease-out forwards;
-        }
+        .fade-enter { opacity: 0; transform: translateY(20px); }
+        .fade-enter-active { opacity: 1; transform: translateY(0); transition: opacity 0.4s, transform 0.4s; }
+        
+        .custom-checkbox input:checked + div { background-color: #2EC4B6; border-color: #2EC4B6; }
+        .custom-checkbox input:checked + div:after { content: '✔'; color: white; font-size: 12px; display: block; text-align: center; }
+        
+        /* Style untuk tombol pagination aktif */
+        .page-btn.active { background-color: #2EC4B6; color: white; border-color: #2EC4B6; }
+        .page-btn.inactive { background-color: white; color: #6b7280; border-color: #e5e7eb; }
     </style>
 </head>
-<body class="bg-cream text-charcoal font-sans overflow-x-hidden relative">
+<body class="bg-cream text-charcoal font-sans antialiased">
 
-    <div class="fixed inset-0 pointer-events-none z-0 opacity-10 overflow-hidden">
-        <div class="absolute top-10 left-10 text-6xl animate-float">🌶️</div>
-        <div class="absolute top-40 right-20 text-5xl animate-float-delayed">🍋</div>
-        <div class="absolute bottom-20 left-1/4 text-6xl animate-float">🌿</div>
-        <div class="absolute top-1/2 right-10 text-4xl animate-float-delayed">🧅</div>
-    </div>
-
-    <nav class="relative z-50 px-6 py-6 md:px-12 flex justify-between items-center">
-        <div class="text-2xl font-bold text-pandan tracking-wide">
-            <i class="fas fa-utensils mr-2"></i>Nusantara<span class="text-kunyit">Rasa</span>
+    <nav class="sticky top-0 z-50 bg-cream/95 backdrop-blur-md border-b border-gray-100 px-6 py-4 shadow-sm">
+        <div class="container mx-auto flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0">
+            <div class="text-2xl font-bold text-pandan tracking-wide cursor-pointer flex items-center gap-2" onclick="goHome()">
+                <div class="bg-kunyit text-white w-8 h-8 rounded-lg flex items-center justify-center text-sm"><i class="fas fa-utensils"></i></div>
+                <span>Nusantara<span class="text-kunyit">Rasa</span></span>
+            </div>
+            
+            <div class="flex flex-col md:flex-row gap-4 items-center w-full md:w-auto">
+                <button onclick="goHome()" class="text-gray-600 hover:text-kunyit font-medium transition hidden md:block">Beranda</button>
+                
+                <div class="relative w-full md:w-64">
+                    <input type="text" id="search-input" onkeyup="handleSearch(this.value)" placeholder="Cari resep (e.g. Ayam)..." 
+                           class="w-full bg-white border border-gray-200 rounded-full py-2 pl-10 pr-4 text-sm focus:outline-none focus:border-pandan focus:ring-1 focus:ring-pandan transition shadow-sm">
+                    <i class="fas fa-search absolute left-3.5 top-2.5 text-gray-400"></i>
+                </div>
+            </div>
         </div>
-        <div class="hidden md:flex space-x-8 font-medium text-gray-600">
-            <a href="#" class="hover:text-kunyit transition">Beranda</a>
-            <a href="#" class="hover:text-kunyit transition">Kategori</a>
-            <a href="#" class="hover:text-kunyit transition">Tips Pro</a>
-        </div>
-        <button class="bg-pandan text-white px-6 py-2 rounded-full font-medium hover:bg-[#25a094] transition shadow-md">
-            Masuk
-        </button>
     </nav>
 
-    <section class="relative z-10 container mx-auto px-6 py-10 md:py-20 flex flex-col-reverse md:flex-row items-center">
-        <div class="w-full md:w-1/2 mt-10 md:mt-0 fade-in-up">
-            <span class="inline-block bg-orange-100 text-kunyit px-4 py-1 rounded-full text-sm font-bold mb-4">
-                👋 Halo Koki Muda!
-            </span>
-            <h1 class="text-4xl md:text-6xl font-bold leading-tight mb-6">
-                Eksplorasi Rasa, <br>
-                <span class="text-kunyit">Inovasi Tradisi</span>
-            </h1>
-            <p class="text-gray-500 text-lg mb-8 leading-relaxed max-w-md">
-                Temukan resep masakan Nusantara yang dimodifikasi untuk lidah modern. Masak jadi mudah, estetik, dan pastinya enak!
-            </p>
-            <div class="flex gap-4">
-                <button class="bg-kunyit text-white px-8 py-4 rounded-full font-bold shadow-lg shadow-orange-200 hover:shadow-xl hover:-translate-y-1 transition transform">
-                    Mulai Masak
-                </button>
-                <button class="border-2 border-pandan text-pandan px-8 py-4 rounded-full font-bold hover:bg-pandan hover:text-white transition">
-                    Lihat Video
-                </button>
-            </div>
-        </div>
-
-        <div class="w-full md:w-1/2 flex justify-center relative">
-            <div class="absolute bg-yellow-100 rounded-full w-[350px] h-[350px] md:w-[500px] md:h-[500px] -z-10 blur-3xl opacity-60 top-10"></div>
+    <main id="app-container" class="min-h-screen pb-20">
+        
+        <div id="home-view" class="container mx-auto px-6 py-8 transition-opacity duration-300">
             
-            <div class="relative w-[300px] h-[300px] md:w-[450px] md:h-[450px]">
-                <img src="https://images.unsplash.com/photo-1565557623262-b51c2513a641?ixlib=rb-1.2.1&auto=format&fit=crop&w=1000&q=80" 
-                     alt="Masakan Nusantara Fusion" 
-                     class="w-full h-full object-cover rounded-full border-8 border-white shadow-2xl animate-float">
-                
-                <div class="absolute -bottom-4 -left-4 bg-white p-4 rounded-2xl shadow-xl animate-float-delayed flex items-center gap-3">
-                    <div class="bg-red-100 p-2 rounded-full text-red-500">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div>
-                        <p class="text-xs text-gray-400">Paling Favorit</p>
-                        <p class="font-bold text-sm">Rendang Burger</p>
-                    </div>
-                </div>
+            <div class="text-center mb-12 max-w-2xl mx-auto">
+                <span class="bg-orange-100 text-kunyit px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-3 inline-block">✨ Edisi Spesial</span>
+                <h1 class="text-3xl md:text-5xl font-bold mt-2 mb-4">20 Resep Fusion <br>Paling Populer</h1>
+                <p class="text-gray-500">Koleksi lengkap masakan tradisional yang dirombak dengan gaya modern.</p>
             </div>
-        </div>
-    </section>
 
-    <section class="relative z-10 container mx-auto px-6 py-10">
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-            <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-lg hover:border-pandan border-2 border-transparent transition cursor-pointer text-center group">
-                <div class="bg-orange-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-kunyit text-2xl group-hover:bg-kunyit group-hover:text-white transition">
-                    <i class="fas fa-sun"></i>
-                </div>
-                <h3 class="font-bold text-gray-700">Sunrise Bites</h3>
-                <p class="text-xs text-gray-400">Sarapan</p>
+            <div id="no-result" class="hidden text-center py-20">
+                <div class="text-6xl mb-4">🍲</div>
+                <h3 class="text-xl font-bold text-gray-700">Yah, Resep tidak ditemukan.</h3>
+                <p class="text-gray-400">Coba kata kunci lain ya, Bestie!</p>
             </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-lg hover:border-pandan border-2 border-transparent transition cursor-pointer text-center group">
-                <div class="bg-green-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-pandan text-2xl group-hover:bg-pandan group-hover:text-white transition">
-                    <i class="fas fa-utensils"></i>
-                </div>
-                <h3 class="font-bold text-gray-700">Lunch Energy</h3>
-                <p class="text-xs text-gray-400">Makan Siang</p>
-            </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-lg hover:border-pandan border-2 border-transparent transition cursor-pointer text-center group">
-                <div class="bg-blue-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-blue-400 text-2xl group-hover:bg-blue-400 group-hover:text-white transition">
-                    <i class="fas fa-moon"></i>
-                </div>
-                <h3 class="font-bold text-gray-700">Night Comfort</h3>
-                <p class="text-xs text-gray-400">Makan Malam</p>
-            </div>
-            <div class="bg-white p-6 rounded-3xl shadow-sm hover:shadow-lg hover:border-pandan border-2 border-transparent transition cursor-pointer text-center group">
-                <div class="bg-pink-50 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-pink-400 text-2xl group-hover:bg-pink-400 group-hover:text-white transition">
-                    <i class="fas fa-ice-cream"></i>
-                </div>
-                <h3 class="font-bold text-gray-700">Sweet Heritage</h3>
-                <p class="text-xs text-gray-400">Dessert</p>
-            </div>
-        </div>
-    </section>
 
-    <section class="relative z-10 container mx-auto px-6 py-16">
-        <div class="flex justify-between items-end mb-10">
-            <div>
-                <h2 class="text-3xl font-bold mb-2">Sedang Hype 🔥</h2>
-                <p class="text-gray-500">Resep inovatif yang lagi viral minggu ini.</p>
-            </div>
-            <a href="#" class="text-pandan font-bold hover:underline hidden md:block">Lihat Semua</a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div id="recipe-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+                </div>
             
-            <div class="bg-white rounded-[30px] shadow-sm hover:shadow-2xl transition duration-300 hover:-translate-y-2 group cursor-pointer overflow-hidden border border-gray-100">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Sushi Nasi Kuning" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <span class="absolute top-4 right-4 bg-pandan text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">Mudah</span>
+            <div id="pagination-container" class="mt-12 flex justify-center gap-2">
                 </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-xl group-hover:text-kunyit transition">Nasi Goreng Kampung</h3>
-                        <div class="flex items-center text-kunyit text-sm">
-                            <i class="fas fa-star"></i>
-                            <span class="ml-1 font-bold text-charcoal">4.8</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">Sajian klasik dengan aroma terasi yang khas, ditambah topping sate lilit.</p>
-                    <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-100 pt-4">
-                        <div class="flex items-center gap-2">
-                            <i class="far fa-clock"></i> 25 Mnt
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-fire-alt text-orange-400"></i> 350 kkal
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="bg-white rounded-[30px] shadow-sm hover:shadow-2xl transition duration-300 hover:-translate-y-2 group cursor-pointer overflow-hidden border border-gray-100">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1513104890138-7c749659a591?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Pizza Rendang" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <span class="absolute top-4 right-4 bg-kunyit text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">Sedang</span>
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-xl group-hover:text-kunyit transition">Pizza Bumbu Rendang</h3>
-                        <div class="flex items-center text-kunyit text-sm">
-                            <i class="fas fa-star"></i>
-                            <span class="ml-1 font-bold text-charcoal">4.9</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">Perpaduan Italia dan Minang! Keju mozzarella lumer bertemu rempah rendang.</p>
-                    <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-100 pt-4">
-                        <div class="flex items-center gap-2">
-                            <i class="far fa-clock"></i> 45 Mnt
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-fire-alt text-orange-400"></i> 520 kkal
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-             <div class="bg-white rounded-[30px] shadow-sm hover:shadow-2xl transition duration-300 hover:-translate-y-2 group cursor-pointer overflow-hidden border border-gray-100">
-                <div class="relative h-56 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80" alt="Es Krim Klepon" class="w-full h-full object-cover group-hover:scale-110 transition duration-500">
-                    <span class="absolute top-4 right-4 bg-purple-500 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md">Ekspert</span>
-                </div>
-                <div class="p-6">
-                    <div class="flex justify-between items-start mb-2">
-                        <h3 class="font-bold text-xl group-hover:text-kunyit transition">Es Krim Rasa Klepon</h3>
-                        <div class="flex items-center text-kunyit text-sm">
-                            <i class="fas fa-star"></i>
-                            <span class="ml-1 font-bold text-charcoal">5.0</span>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 text-sm mb-4 line-clamp-2">Dessert manis dengan sensasi gula merah meletus di mulut. Dingin & Segar!</p>
-                    <div class="flex items-center justify-between text-gray-500 text-sm border-t border-gray-100 pt-4">
-                        <div class="flex items-center gap-2">
-                            <i class="far fa-clock"></i> 60 Mnt
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <i class="fas fa-fire-alt text-orange-400"></i> 210 kkal
-                        </div>
-                    </div>
-                </div>
-            </div>
-
         </div>
-    </section>
 
-    <section class="container mx-auto px-6 mb-20">
-        <div class="bg-charcoal rounded-[30px] p-8 md:p-12 flex flex-col md:flex-row items-center justify-between relative overflow-hidden">
-            <div class="relative z-10 w-full md:w-2/3">
-                <div class="flex items-center gap-3 mb-4">
-                    <div class="bg-yellow-400 p-2 rounded-full text-charcoal animate-pulse">
-                        <i class="fas fa-lightbulb"></i>
-                    </div>
-                    <span class="text-gray-300 uppercase tracking-widest text-sm font-bold">Tips Dapur Pro</span>
-                </div>
-                <h2 class="text-white text-2xl md:text-3xl font-bold mb-4">"Cara Agar Santan Tidak Pecah"</h2>
-                <p class="text-gray-400 mb-6">Aduk terus perlahan dengan api kecil dan jangan biarkan mendidih terlalu lama. Tambahkan sedikit tepung maizena jika perlu.</p>
-                <button class="text-pandan font-bold hover:text-white transition">Baca Tips Lainnya →</button>
+        <div id="detail-view" class="hidden opacity-0 transition-opacity duration-300">
             </div>
-            <div class="hidden md:block text-gray-700 text-9xl absolute -right-10 -bottom-10 opacity-20 transform rotate-12">
-                <i class="fas fa-blender"></i>
-            </div>
+
+    </main>
+
+    <footer class="bg-white border-t border-gray-100 py-10 mt-10">
+        <div class="container mx-auto px-6 text-center text-gray-400 text-sm">
+            <p>&copy; 2024 Nusantara Rasa. Dibuat dengan 🌶️ dan ❤️.</p>
         </div>
-    </section>
+    </footer>
 
+    <script>
+        // --- 1. DATA 20 RESEP (Images Fixed) ---
+        const recipes = [
+            // PAGE 1 (1-10)
+            {
+                id: 1, title: "Rendang Burger Supreme",
+                desc: "Perpaduan Barat dan Minang. Patty daging sapi juicy yang dimasak dengan bumbu rendang kering.",
+                image: "https://images.unsplash.com/photo-1568901346375-23c9450c58cd?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.9, time: "45 Mnt", kalori: "520 kkal", difficulty: "Sedang", ingredients: ["300g Daging Sapi", "Bumbu Rendang", "Roti Burger", "Keju"], steps: ["Masak patty dengan bumbu.", "Susun burger."]
+            },
+            {
+                id: 2, title: "Sushi Nasi Kuning",
+                desc: "Roll sushi cantik menggunakan nasi kuning gurih, diisi dengan ayam suwir pedas dan orek tempe.",
+                image: "https://images.unsplash.com/photo-1579871494447-9811cf80d66c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.8, time: "60 Mnt", kalori: "350 kkal", difficulty: "Sulit", ingredients: ["Nasi Kuning", "Nori", "Ayam Suwir", "Orek Tempe"], steps: ["Gulung nasi kuning di nori.", "Isi ayam & tempe."]
+            },
+            {
+                id: 3, title: "Pizza Sambal Matah",
+                desc: "Thin crust pizza dengan topping tuna, mozzarella, dan kesegaran sambal matah khas Bali.",
+                image: "https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.7, time: "30 Mnt", kalori: "410 kkal", difficulty: "Mudah", ingredients: ["Pizza Base", "Tuna", "Sambal Matah", "Keju"], steps: ["Panggang pizza.", "Taburi sambal matah."]
+            },
+            {
+                id: 4, title: "Es Krim Klepon",
+                desc: "Dessert manis dingin dengan sensasi gula merah cair di dalamnya dan aroma pandan.",
+                image: "https://images.unsplash.com/photo-1563805042-7684c019e1cb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 5.0, time: "20 Mnt", kalori: "210 kkal", difficulty: "Sedang", ingredients: ["Es Krim Vanilla", "Pandan", "Gula Merah"], steps: ["Campur es krim & pandan.", "Siram gula merah."]
+            },
+            {
+                id: 5, title: "Spaghetti Rawon",
+                desc: "Pasta Italia berwarna hitam eksotis dari bumbu kluwek Rawon, disajikan dengan telur asin.",
+                image: "https://images.unsplash.com/photo-1626844131082-256783844137?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.6, time: "35 Mnt", kalori: "480 kkal", difficulty: "Sedang", ingredients: ["Spaghetti", "Bumbu Rawon", "Daging", "Telur Asin"], steps: ["Rebus pasta.", "Tumis dengan bumbu rawon."]
+            },
+            {
+                id: 6, title: "Taco Sisit Bali",
+                desc: "Kulit Taco renyah diisi dengan Ayam Suwir Bumbu Bali (Sisit) dan salsa tomat.",
+                image: "https://images.unsplash.com/photo-1565299585323-38d6b0865b47?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.8, time: "40 Mnt", kalori: "320 kkal", difficulty: "Sedang", ingredients: ["Taco Shell", "Ayam Sisit", "Selada"], steps: ["Isi taco dengan ayam bumbu bali."]
+            },
+            {
+                id: 7, title: "Mentai Rice Lodeh",
+                desc: "Nasi aroma lodeh gurih, ditutup topping salmon dan saus mentai yang dibakar.",
+                image: "https://images.unsplash.com/photo-1546069901-ba9599a7e63c?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fixed Image (Bowl)
+                rating: 4.5, time: "50 Mnt", kalori: "600 kkal", difficulty: "Sulit", ingredients: ["Nasi Lodeh", "Salmon", "Saus Mentai"], steps: ["Masak nasi lodeh.", "Beri topping & bakar."]
+            },
+            {
+                id: 8, title: "Donat Kentang Gula Aren",
+                desc: "Donat kentang super lembut (fluffy) dengan glaze gula aren cair dan kelapa.",
+                image: "https://images.unsplash.com/photo-1551024709-8f23befc6f87?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.9, time: "120 Mnt", kalori: "280 kkal", difficulty: "Master", ingredients: ["Kentang", "Terigu", "Gula Aren"], steps: ["Buat adonan.", "Goreng.", "Celup gula aren."]
+            },
+            {
+                id: 9, title: "Geprek Mozzarella",
+                desc: "Ayam goreng tepung digeprek sambal bawang, dilelehkan keju mozzarella.",
+                image: "https://images.unsplash.com/photo-1625938144755-652e08e359b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.9, time: "45 Mnt", kalori: "550 kkal", difficulty: "Sedang", ingredients: ["Ayam Krispi", "Sambal Bawang", "Mozzarella"], steps: ["Geprek ayam.", "Lelehkan keju."]
+            },
+            {
+                id: 10, title: "Salad Roll Gado-Gado",
+                desc: "Spring Roll Vietnam isian sayur gado-gado dengan dipping sauce kacang.",
+                image: "https://images.unsplash.com/photo-1534422298391-e4f8c172dddb?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.7, time: "25 Mnt", kalori: "180 kkal", difficulty: "Mudah", ingredients: ["Rice Paper", "Sayur Gado-gado", "Bumbu Kacang"], steps: ["Basahi rice paper.", "Gulung sayuran."]
+            },
+
+            // PAGE 2 (11-20)
+            {
+                id: 11, title: "Aglio Olio Cakalang",
+                desc: "Pasta klasik Italia dengan sentuhan Manado. Pedas, berminyak, dengan aroma ikan cakalang asap.",
+                image: "https://images.unsplash.com/photo-1612966808570-0d322db7e62a?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fixed Image (Pasta)
+                rating: 4.8, time: "20 Mnt", kalori: "450 kkal", difficulty: "Mudah", ingredients: ["Spaghetti", "Cakalang Asap", "Cabai", "Minyak"], steps: ["Rebus pasta.", "Tumis cakalang.", "Aduk rata."]
+            },
+            {
+                id: 12, title: "Steak Saus Kalio",
+                desc: "Sirloin steak medium rare yang disiram dengan saus Kalio (Rendang setengah jadi) yang kental.",
+                image: "https://images.unsplash.com/photo-1600891964092-4316c288032e?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 5.0, time: "40 Mnt", kalori: "700 kkal", difficulty: "Master", ingredients: ["Sirloin", "Bumbu Kalio", "Kentang"], steps: ["Pan seared steak.", "Masak saus kalio.", "Sajikan."]
+            },
+            {
+                id: 13, title: "Churros Saus Srikaya",
+                desc: "Camilan goreng renyah khas Spanyol, dicocol ke dalam selai Srikaya pandan yang manis legit.",
+                image: "https://images.unsplash.com/photo-1619623727263-d421239c80d4?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fixed Image (Churros)
+                rating: 4.6, time: "45 Mnt", kalori: "380 kkal", difficulty: "Sedang", ingredients: ["Adonan Churros", "Selai Srikaya"], steps: ["Goreng churros.", "Sajikan dengan srikaya."]
+            },
+            {
+                id: 14, title: "Wings Bumbu Rujak",
+                desc: "Sayap ayam goreng a la Korea (Sticky Wings) tapi dilumuri saus bumbu rujak pedas manis.",
+                image: "https://images.unsplash.com/photo-1567620832903-9fc6debc209f?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fixed Image (Wings)
+                rating: 4.9, time: "50 Mnt", kalori: "580 kkal", difficulty: "Sedang", ingredients: ["Sayap Ayam", "Bumbu Rujak", "Gula Merah"], steps: ["Goreng ayam.", "Lumuri saus rujak."]
+            },
+            {
+                id: 15, title: "Lasagna Terong Balado",
+                desc: "Fusion Vegetarian. Layer lasagna diganti terong panggang, diisi saus tomat pedas (balado) dan bechamel.",
+                image: "https://images.unsplash.com/photo-1619895092538-128341789043?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fixed Image (Lasagna style)
+                rating: 4.5, time: "60 Mnt", kalori: "320 kkal", difficulty: "Sulit", ingredients: ["Terong", "Sambal Balado", "Saus Putih"], steps: ["Layer terong dan sambal.", "Panggang."]
+            },
+            {
+                id: 16, title: "Fish n Chips Dabu-Dabu",
+                desc: "Ikan dori tepung krispi dan kentang goreng, disegarkan dengan topping sambal dabu-dabu Manado.",
+                image: "https://images.unsplash.com/photo-1579208575657-c595a05383b7?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fixed Image (Fish n Chips)
+                rating: 4.7, time: "30 Mnt", kalori: "490 kkal", difficulty: "Mudah", ingredients: ["Ikan Dori", "Kentang", "Dabu-dabu"], steps: ["Goreng ikan.", "Siram dabu-dabu."]
+            },
+            {
+                id: 17, title: "Tiramisu Kopi Toraja",
+                desc: "Dessert klasik Italia, namun biskuit lidah kucingnya direndam dalam Kopi Toraja yang kuat.",
+                image: "https://images.unsplash.com/photo-1571877227200-a0d98ea607e9?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 5.0, time: "30 Mnt", kalori: "350 kkal", difficulty: "Sedang", ingredients: ["Mascarpone", "Kopi Toraja", "Biskuit"], steps: ["Celup biskuit ke kopi.", "Layer dengan keju."]
+            },
+            {
+                id: 18, title: "Burger Tempe Katsu",
+                desc: "Menu sehat! Tempe dibalut tepung panir ala Katsu, disajikan dengan saus mayonaise wijen.",
+                image: "https://images.unsplash.com/photo-1525059696034-4967a8e1dca2?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80",
+                rating: 4.6, time: "35 Mnt", kalori: "300 kkal", difficulty: "Mudah", ingredients: ["Tempe", "Tepung Panir", "Roti Burger"], steps: ["Goreng tempe katsu.", "Susun burger."]
+            },
+            {
+                id: 19, title: "Croffle Saus Durian",
+                desc: "Croissant Waffle yang lagi hits, disiram vla durian medan yang creamy dan wangi.",
+                image: "https://images.unsplash.com/photo-1562376552-0d160a2f238d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fixed Image (Waffle/Croffle)
+                rating: 4.8, time: "25 Mnt", kalori: "450 kkal", difficulty: "Mudah", ingredients: ["Croissant Dough", "Durian", "Susu"], steps: ["Panggang croffle.", "Buat saus durian."]
+            },
+            {
+                id: 20, title: "Nachos Keripik Pangsit",
+                desc: "Pengganti Tortilla chips menggunakan Keripik Pangsit goreng, disiram daging cincang balado dan keju.",
+                image: "https://images.unsplash.com/photo-1513456852971-30c0b8199d4d?ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=80", // Fixed Image (Nachos)
+                rating: 4.7, time: "20 Mnt", kalori: "420 kkal", difficulty: "Mudah", ingredients: ["Kulit Pangsit", "Daging Cincang", "Keju"], steps: ["Goreng pangsit.", "Siram daging & keju."]
+            }
+        ];
+
+        // --- 2. GLOBAL VARIABLES ---
+        let currentPage = 1;
+        const itemsPerPage = 10;
+        let filteredRecipes = [...recipes]; // Defaultnya semua resep
+
+        // --- 3. FUNGSI LOGIC (Search & Pagination) ---
+        
+        const homeView = document.getElementById('home-view');
+        const detailView = document.getElementById('detail-view');
+        const recipeGrid = document.getElementById('recipe-grid');
+        const paginationContainer = document.getElementById('pagination-container');
+        const noResultDiv = document.getElementById('no-result');
+
+        // Handle Search Input
+        function handleSearch(query) {
+            const searchTerm = query.toLowerCase();
+            
+            // Filter array
+            filteredRecipes = recipes.filter(recipe => 
+                recipe.title.toLowerCase().includes(searchTerm) || 
+                recipe.desc.toLowerCase().includes(searchTerm)
+            );
+
+            // Reset ke halaman 1 setiap kali search berubah
+            currentPage = 1;
+            
+            // Render ulang
+            renderRecipeCards();
+            renderPagination();
+        }
+
+        // Handle Page Change
+        function changePage(page) {
+            if (page < 1 || page > Math.ceil(filteredRecipes.length / itemsPerPage)) return;
+            currentPage = page;
+            renderRecipeCards();
+            renderPagination();
+            // Scroll sedikit ke atas grid
+            document.getElementById('home-view').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // Render Grid
+        function renderRecipeCards() {
+            // Bersihkan grid
+            recipeGrid.innerHTML = '';
+
+            // Cek jika kosong
+            if (filteredRecipes.length === 0) {
+                noResultDiv.classList.remove('hidden');
+                paginationContainer.classList.add('hidden');
+                return;
+            } else {
+                noResultDiv.classList.add('hidden');
+                paginationContainer.classList.remove('hidden');
+            }
+
+            // Hitung start & end index
+            const startIndex = (currentPage - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const paginatedItems = filteredRecipes.slice(startIndex, endIndex);
+
+            // Generate Cards
+            recipeGrid.innerHTML = paginatedItems.map(recipe => `
+                <div onclick="openRecipe(${recipe.id})" class="bg-white rounded-[24px] shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-300 cursor-pointer group border border-gray-100 overflow-hidden flex flex-col h-full">
+                    <div class="relative h-48 overflow-hidden flex-shrink-0">
+                        <img src="${recipe.image}" alt="${recipe.title}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
+                        <div class="absolute top-3 right-3 bg-white/90 backdrop-blur text-xs font-bold px-3 py-1 rounded-full shadow-sm text-charcoal flex items-center gap-1">
+                            <i class="fas fa-star text-kunyit"></i> ${recipe.rating}
+                        </div>
+                    </div>
+                    <div class="p-5 flex flex-col flex-grow">
+                        <div class="flex justify-between items-start mb-2">
+                            <span class="text-[10px] uppercase font-bold tracking-wider text-pandan border border-pandan px-2 py-0.5 rounded-md">${recipe.difficulty}</span>
+                            <span class="text-xs text-gray-400 flex items-center gap-1"><i class="far fa-clock"></i> ${recipe.time}</span>
+                        </div>
+                        <h3 class="font-bold text-lg text-charcoal leading-tight mb-2 group-hover:text-kunyit transition">${recipe.title}</h3>
+                        <p class="text-gray-400 text-sm line-clamp-2 mb-4">${recipe.desc}</p>
+                        
+                        <div class="mt-auto pt-4 border-t border-gray-50 flex justify-between items-center">
+                             <span class="text-xs text-gray-400"><i class="fas fa-fire text-orange-300"></i> ${recipe.kalori}</span>
+                             <span class="text-xs font-bold text-pandan group-hover:underline">Lihat Resep <i class="fas fa-arrow-right ml-1"></i></span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Render Pagination Buttons
+        function renderPagination() {
+            const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage);
+            
+            // Jika halaman cuma 1, sembunyikan pagination
+            if (totalPages <= 1) {
+                paginationContainer.innerHTML = '';
+                return;
+            }
+
+            let paginationHTML = '';
+
+            // Generate Page Numbers
+            for (let i = 1; i <= totalPages; i++) {
+                const activeClass = i === currentPage ? 'active' : 'inactive hover:bg-gray-100';
+                paginationHTML += `
+                    <button onclick="changePage(${i})" class="page-btn ${activeClass} w-10 h-10 rounded-full font-bold shadow-sm border transition">
+                        ${i}
+                    </button>
+                `;
+            }
+
+            // Next Button logic
+            if (currentPage < totalPages) {
+                paginationHTML += `
+                    <button onclick="changePage(${currentPage + 1})" class="w-10 h-10 rounded-full bg-white text-gray-500 hover:bg-gray-100 font-bold border border-gray-200 shadow-sm transition">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                `;
+            }
+
+            paginationContainer.innerHTML = paginationHTML;
+        }
+
+        // --- 4. NAVIGATION LOGIC (Detail Page) ---
+
+        function openRecipe(id) {
+            const recipe = recipes.find(r => r.id === id);
+            if (!recipe) return;
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            detailView.innerHTML = `
+                <button onclick="goHome()" class="fixed bottom-6 right-6 md:top-24 md:left-6 md:right-auto md:bottom-auto z-50 bg-white text-charcoal w-12 h-12 rounded-full shadow-lg flex items-center justify-center hover:bg-kunyit hover:text-white transition hover:scale-110 border border-gray-100 group">
+                    <i class="fas fa-arrow-left group-hover:-translate-x-1 transition"></i>
+                </button>
+
+                <div class="relative w-full h-[40vh] md:h-[50vh]">
+                    <img src="${recipe.image}" class="w-full h-full object-cover">
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent"></div>
+                    <div class="absolute bottom-0 left-0 w-full p-6 md:p-12 text-white">
+                        <div class="container mx-auto animate-fade-in-up">
+                            <span class="bg-kunyit text-white px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider mb-2 inline-block shadow-lg">Resep Fusion</span>
+                            <h1 class="text-3xl md:text-5xl font-bold mb-4 drop-shadow-md leading-tight">${recipe.title}</h1>
+                            <div class="flex flex-wrap gap-4 text-sm md:text-base font-medium">
+                                <div class="flex items-center gap-2 bg-white/20 backdrop-blur px-3 py-1 rounded-lg"><i class="fas fa-chart-line text-pandan"></i> ${recipe.difficulty}</div>
+                                <div class="flex items-center gap-2 bg-white/20 backdrop-blur px-3 py-1 rounded-lg"><i class="far fa-clock text-pandan"></i> ${recipe.time}</div>
+                                <div class="flex items-center gap-2 bg-white/20 backdrop-blur px-3 py-1 rounded-lg"><i class="fas fa-fire text-pandan"></i> ${recipe.kalori}</div>
+                                <div class="flex items-center gap-2 bg-white/20 backdrop-blur px-3 py-1 rounded-lg"><i class="fas fa-star text-yellow-400"></i> ${recipe.rating}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="container mx-auto px-6 py-10 -mt-8 relative z-10">
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                        <div class="lg:col-span-4">
+                            <div class="bg-white rounded-[30px] p-8 shadow-xl border border-gray-100 sticky top-24">
+                                <h3 class="text-xl font-bold mb-6 flex items-center gap-2 text-charcoal border-b pb-4">
+                                    <i class="fas fa-shopping-basket text-pandan"></i> Bahan-bahan
+                                </h3>
+                                <div class="space-y-3">
+                                    ${recipe.ingredients.map(ing => `
+                                        <label class="flex items-start gap-3 cursor-pointer group custom-checkbox hover:bg-gray-50 p-2 rounded-lg transition">
+                                            <input type="checkbox" class="hidden">
+                                            <div class="w-5 h-5 border-2 border-gray-300 rounded-md flex-shrink-0 flex items-center justify-center transition group-hover:border-pandan bg-white mt-0.5"></div>
+                                            <span class="text-gray-600 text-sm group-hover:text-charcoal transition select-none leading-snug">${ing}</span>
+                                        </label>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="lg:col-span-8">
+                            <div class="bg-white rounded-[30px] p-8 md:p-10 shadow-sm border border-gray-100">
+                                <h3 class="text-2xl font-bold mb-8 flex items-center gap-3 text-charcoal">
+                                    <i class="fas fa-fire text-kunyit"></i> Cara Memasak
+                                </h3>
+                                <div class="space-y-8 relative">
+                                    <div class="absolute left-[19px] top-2 bottom-4 w-0.5 bg-gray-100"></div>
+                                    ${recipe.steps.map((step, index) => `
+                                        <div class="relative flex gap-6 group">
+                                            <div class="flex-shrink-0 w-10 h-10 rounded-full bg-pandan text-white flex items-center justify-center font-bold text-lg shadow-md z-10 relative border-4 border-white group-hover:scale-110 transition">
+                                                ${index + 1}
+                                            </div>
+                                            <div class="pt-1 w-full">
+                                                <h4 class="font-bold text-gray-800 text-lg mb-2">Langkah ${index + 1}</h4>
+                                                <p class="text-gray-500 leading-relaxed bg-gray-50 p-5 rounded-xl border border-gray-100 hover:border-pandan hover:bg-green-50 transition duration-300">
+                                                    ${step}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    `).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            homeView.classList.add('hidden');
+            detailView.classList.remove('hidden');
+            setTimeout(() => {
+                detailView.classList.remove('opacity-0');
+                detailView.classList.add('fade-enter-active');
+            }, 50);
+        }
+
+        function goHome() {
+            detailView.classList.add('opacity-0');
+            setTimeout(() => {
+                detailView.classList.add('hidden');
+                homeView.classList.remove('hidden');
+                document.getElementById('home-view').scrollIntoView({ behavior: 'smooth' });
+            }, 300);
+        }
+
+        // INIT
+        renderRecipeCards();
+        renderPagination();
+
+    </script>
 </body>
 </html>
